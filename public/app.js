@@ -167,7 +167,7 @@ function initWebSocket() {
       const message = JSON.parse(event.data);
       handleServerMessage(message);
     } catch (error) {
-      console.error("Ungültige Servernachricht", error);
+      // Ungültige Nachricht ignorieren
     }
   });
 
@@ -298,7 +298,7 @@ function renderPlayers() {
   state.players.forEach((player) => {
     const badge = document.createElement("span");
     badge.className = "pill-badge";
-    const hostBadge = player.isHost ? '<span class="badge bg-danger">Host</span>' : "";
+    const hostBadge = player.isHost ? '<span class="px-2 py-1 rounded-full bg-red-600 text-white text-xs font-bold uppercase tracking-wide">Host</span>' : "";
     const selfSuffix = player.id === state.playerId ? " (Du)" : "";
     badge.innerHTML = `<span>${player.name}${selfSuffix}</span>${hostBadge}`;
     elements.playerList.appendChild(badge);
@@ -765,7 +765,7 @@ async function fetchQuestionCategories() {
       return;
     }
   } catch (error) {
-    console.warn("Fragenkategorien konnten nicht geladen werden:", error);
+    // Fallback zu Standard-Kategorien
   }
   applyCategoryData(FALLBACK_CATEGORIES);
 }
@@ -1077,7 +1077,8 @@ function handleServerMessage(message) {
       showView("home");
       break;
     default:
-      console.warn("Unbekannter Nachrichtentyp", message);
+      // Unbekannter Nachrichtentyp ignorieren
+      break;
   }
 }
 
