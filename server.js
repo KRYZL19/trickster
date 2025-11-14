@@ -210,17 +210,14 @@ function createRoom(hostClient, name, rounds, answerDuration, voteDuration, mode
   const categoryId = sanitizeQuestionCategory(mode === "normal" ? questionCategoryValue : DEFAULT_CATEGORY_ID);
   const category = getCategoryById(categoryId);
   const questionBank = mode === "normal" ? category.questions : [];
-  const maxAvailableRounds = mode === "normal" ? questionBank.length || 1 : requestedRounds;
-  const sanitizedRounds = mode === "normal"
-    ? Math.max(1, Math.min(requestedRounds, maxAvailableRounds))
-    : requestedRounds;
+  const sanitizedRounds = requestedRounds;
   const sanitizedAnswerDuration = sanitizeDuration(answerDuration, 90, 15, 300);
   const sanitizedVoteDuration = sanitizeDuration(voteDuration, 20, 5, 120);
   if (mode === "normal" && questionBank.length === 0) {
     throw new Error("Keine Fragen für die gewählte Kategorie verfügbar.");
   }
   const code = generateLobbyCode();
-  const questionDeck = mode === "normal" ? shuffleArray([...questionBank]).slice(0, sanitizedRounds) : [];
+  const questionDeck = [];
   const room = {
     code,
     hostId: hostClient.id,
@@ -413,11 +410,12 @@ function startGame(room) {
   room.questionIndex = 0;
   room.answers.clear();
   room.votes.clear();
+  const totalLegs = room.rounds * room.players.size;
   if (room.mode === "normal") {
-    room.questionDeck = shuffleArray([...room.questionBank]).slice(0, room.rounds);
+    room.questionDeck = shuffleArray([...room.questionBank]).slice(0, totalLegs);
   } else {
     room.questionBank = buildCustomQuestionDeck(room);
-    room.questionDeck = shuffleArray([...room.questionBank]).slice(0, room.rounds);
+    room.questionDeck = shuffleArray([...room.questionBank]).slice(0, totalLegs);
   }
   room.questionIndex = 0;
 
