@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Trickster</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./dist/styles.css" />
+  </head>
+  <body class="min-h-screen bg-gradient-to-b from-aqua-400 to-aqua-600 flex items-center justify-center p-4 md:p-8">
+    <div class="w-full max-w-3xl mx-auto">
+      <div class="bg-white/95 backdrop-blur-sm rounded-[2.5rem] shadow-2xl shadow-sky-900/20 overflow-hidden animate-fade-in">
+        <header class="text-center py-6 md:py-8 px-4">
+          <div class="logo-emoji mb-3">🎭</div>
+          <h1 class="text-3xl md:text-4xl font-bold text-gray-900 tracking-wide">Trickster</h1>
+        </header>
+
+        <main class="px-6 py-8 md:px-12 md:py-10 space-y-6">
+                <section id="view-home" class="view active text-center">
+                  <div class="mb-6">
+                    <label for="playerName" class="block text-sm font-semibold text-gray-700 mb-2">Dein Spielername</label>
+                    <input
+                      type="text"
+                      class="w-full bg-white text-gray-900 text-center text-lg placeholder:text-gray-400 rounded-xxl px-6 py-4 shadow-md border border-aqua-200 focus:outline-none focus:border-aqua-500 focus:ring-4 focus:ring-aqua-300/40 transition"
+                      id="playerName"
+                      placeholder="Gib deinen Namen ein"
+                      maxlength="20"
+                    />
+                    <p class="text-sm text-gray-600 mt-2">
+                      Dein Name wird in der Lobby angezeigt.
+                    </p>
+                  </div>
+
+                  <div class="flex flex-col gap-4">
+                    <button data-target-view="create" class="bg-aqua-700 hover:bg-aqua-600 active:bg-aqua-700 text-white rounded-full px-8 py-4 text-lg font-semibold shadow-lg shadow-aqua-900/20 transition hover:translate-y-[-2px] hover:shadow-xl active:scale-[0.98] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-aqua-300/60">
+                      Raum erstellen
+                    </button>
+                    <button data-target-view="join" class="bg-aqua-700 hover:bg-aqua-600 active:bg-aqua-700 text-white rounded-full px-8 py-4 text-lg font-semibold shadow-lg shadow-aqua-900/20 transition hover:translate-y-[-2px] hover:shadow-xl active:scale-[0.98] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-aqua-300/60">
+                      Raum suchen
+                    </button>
+                  </div>
+                </section>
+
+                <section id="view-create" class="view text-center">
+                  <h2 class="text-2xl font-bold text-gray-900 mb-6">Neue Lobby erstellen</h2>
+                  <div class="mb-6">
+                    <label for="roundCount" class="block text-sm font-semibold text-gray-700 mb-2">Anzahl der Runden</label>
+                    <input
+                      type="number"
+                      class="w-full bg-white text-gray-900 text-center text-lg placeholder:text-gray-400 rounded-xxl px-6 py-4 shadow-md border border-aqua-200 focus:outline-none focus:border-aqua-500 focus:ring-4 focus:ring-aqua-300/40 transition"
+                      id="roundCount"
+                      min="1"
+                      max="20"
+                      value="2"
+                    />
+                  </div>
+                  <div class="mb-6 text-left">
+                    <label class="block text-sm font-semibold text-gray-700 mb-3">Spielmodus</label>
+                    <div class="mode-toggle flex flex-col md:flex-row gap-3" role="group" aria-label="Spielmodus wählen">
+                      <input type="radio" class="btn-check hidden" name="modeOptions" id="modeNormal" value="normal" checked />
+                      <label class="btn-mode flex-1" for="modeNormal">
+                        <span class="mode-title block">Normal</span>
+                        <span class="mode-subtitle block">Vorgefertigte Fragen</span>
+                      </label>
+                      <input type="radio" class="btn-check hidden" name="modeOptions" id="modeCustom" value="custom" />
+                      <label class="btn-mode flex-1" for="modeCustom">
+                        <span class="mode-title block">Custom</span>
+                        <span class="mode-subtitle block">Spieler reichen Fragen ein</span>
+                      </label>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-3">
+                      Im Custom-Modus können später eigene Fragen direkt in der Lobby gesammelt werden.
+                    </p>
+                  </div>
+                  <div class="mb-6" id="categorySection" hidden>
+                    <label class="block text-sm font-semibold text-gray-700 mb-3">Fragenkategorie</label>
+                    <div id="categoryOptions" class="mode-toggle flex flex-col md:flex-row md:flex-wrap gap-3"></div>
+                    <p class="text-sm text-gray-600 mt-3" id="categoryHint">
+                      Wähle, welche Themen euch erwarten.
+                    </p>
+                  </div>
+                  <div class="mb-6">
+                    <label for="answerTime" class="block text-sm font-semibold text-gray-700 mb-2">Antwortzeit (Sekunden)</label>
+                    <input
+                      type="number"
+                      class="w-full bg-white text-gray-900 text-center text-lg placeholder:text-gray-400 rounded-xxl px-6 py-4 shadow-md border border-aqua-200 focus:outline-none focus:border-aqua-500 focus:ring-4 focus:ring-aqua-300/40 transition"
+                      id="answerTime"
+                      min="15"
+                      max="300"
+                      value="90"
+                    />
+                  </div>
+                  <div class="mb-6">
+                    <label for="voteTime" class="block text-sm font-semibold text-gray-700 mb-2">Votingzeit (Sekunden)</label>
+                    <input
+                      type="number"
+                      class="w-full bg-white text-gray-900 text-center text-lg placeholder:text-gray-400 rounded-xxl px-6 py-4 shadow-md border border-aqua-200 focus:outline-none focus:border-aqua-500 focus:ring-4 focus:ring-aqua-300/40 transition"
+                      id="voteTime"
+                      min="5"
+                      max="120"
+                      value="20"
+                    />
+                  </div>
+                  <div class="flex flex-col gap-4">
+                    <button id="startCreateBtn" class="bg-aqua-700 hover:bg-aqua-600 active:bg-aqua-700 text-white rounded-full px-8 py-4 text-lg font-semibold shadow-lg shadow-aqua-900/20 transition hover:translate-y-[-2px] hover:shadow-xl active:scale-[0.98] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-aqua-300/60">
+                      Lobby erstellen
+                    </button>
+                    <button class="bg-white/80 hover:bg-white text-aqua-700 border-2 border-aqua-600/30 hover:border-aqua-600 rounded-full px-8 py-4 text-lg font-semibold shadow-md transition hover:shadow-lg active:scale-[0.98] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-aqua-300/60" data-target-view="home">
+                      Zurück
+                    </button>
+                  </div>
+                </section>
+
+                <section id="view-join" class="view text-center">
+                  <h2 class="text-2xl font-bold text-gray-900 mb-6">Lobby beitreten</h2>
+                  <div class="mb-6">
+                    <label for="joinCode" class="block text-sm font-semibold text-gray-700 mb-2">4-stelliger Lobby-Code</label>
+                    <input
+                      type="text"
+                      class="w-full bg-white text-gray-900 text-center text-2xl placeholder:text-gray-400 rounded-xxl px-6 py-4 shadow-md border border-aqua-200 focus:outline-none focus:border-aqua-500 focus:ring-4 focus:ring-aqua-300/40 transition tracking-widest font-bold"
+                      id="joinCode"
+                      placeholder="1234"
+                      inputmode="numeric"
+                      pattern="\d{4}"
+                      maxlength="4"
+                    />
+                  </div>
+                  <div class="flex flex-col gap-4">
+                    <button id="joinCodeBtn" class="bg-aqua-700 hover:bg-aqua-600 active:bg-aqua-700 text-white rounded-full px-8 py-4 text-lg font-semibold shadow-lg shadow-aqua-900/20 transition hover:translate-y-[-2px] hover:shadow-xl active:scale-[0.98] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-aqua-300/60">
+                      Beitreten
+                    </button>
+                    <button class="bg-white/80 hover:bg-white text-aqua-700 border-2 border-aqua-600/30 hover:border-aqua-600 rounded-full px-8 py-4 text-lg font-semibold shadow-md transition hover:shadow-lg active:scale-[0.98] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-aqua-300/60" data-target-view="home">
+                      Zurück
+                    </button>
+                  </div>
+                </section>
+
+                <section id="view-lobby" class="view">
+                  <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+                    <div class="space-y-2">
+                      <p class="text-lg text-gray-900 font-medium">Code: <span id="lobbyCode" class="font-bold text-aqua-700 text-2xl tracking-widest">----</span></p>
+                      <span id="roundInfo" class="text-sm text-gray-600 block">Runden: --</span>
+                      <span id="modeInfo" class="lobby-mode-tag">Modus: --</span>
+                    </div>
+                    <span class="px-4 py-2 rounded-full bg-aqua-100 text-aqua-900 text-sm font-semibold border border-aqua-200" id="playersNeeded">
+                      Mind. 3 Spieler
+                    </span>
+                  </div>
+                  <div>
+                    <h2 class="text-xl font-bold text-gray-900 mb-4 text-center">Spielerliste</h2>
+                    <div id="playerList" class="flex flex-wrap justify-center gap-3"></div>
+                  </div>
+                  <div id="customLobbySection" class="mt-6" hidden>
+                    <div class="rounded-3xl border border-aqua-100 bg-aqua-50/70 px-5 py-5 space-y-4">
+                      <div>
+                        <h3 class="text-lg font-semibold text-gray-900">Custom-Fragen</h3>
+                        <p id="customInstruction" class="text-sm text-gray-600 mt-1">
+                          Jede Person soll so viele Fragen einreichen wie Runden eingestellt sind.
+                        </p>
+                      </div>
+                      <div id="customQuestionInputs" class="space-y-3"></div>
+                      <div class="flex flex-col gap-3">
+                        <button id="customQuestionSubmitBtn" class="bg-aqua-700 hover:bg-aqua-600 active:bg-aqua-700 text-white rounded-full px-6 py-3 text-md font-semibold shadow-lg shadow-aqua-900/15 transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-aqua-300/60">
+                          Fragen speichern
+                        </button>
+                        <p id="customSubmitStatus" class="text-sm text-gray-700 text-center">0/0 Fragen gespeichert.</p>
+                      </div>
+                      <div>
+                        <h4 class="text-sm font-semibold text-gray-800 mb-2">Fortschritt aller Spieler</h4>
+                        <div id="customProgressList" class="space-y-2 text-sm text-gray-700"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex flex-col gap-4 mt-6">
+                    <button id="startGameBtn" class="bg-aqua-700 hover:bg-aqua-600 active:bg-aqua-700 text-white rounded-full px-8 py-4 text-lg font-semibold shadow-lg shadow-aqua-900/20 transition hover:translate-y-[-2px] hover:shadow-xl active:scale-[0.98] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-aqua-300/60 animate-pulse-soft">
+                      Spiel starten
+                    </button>
+                    <button id="leaveLobbyBtn" class="bg-white/80 hover:bg-white text-aqua-700 border-2 border-aqua-600/30 hover:border-aqua-600 rounded-full px-8 py-4 text-lg font-semibold shadow-md transition hover:shadow-lg active:scale-[0.98] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-aqua-300/60">
+                      Lobby verlassen
+                    </button>
+                  </div>
+                </section>
+
+                <section id="view-countdown" class="view text-center">
+                  <div class="placeholder-panel">
+                    <h2 class="text-xl font-semibold text-gray-900 mb-4">Bereit machen!</h2>
+                    <p class="text-7xl font-extrabold text-aqua-700 mb-4" id="countdownValue">3</p>
+                    <p class="text-gray-600 mt-3">Das Spiel startet gleich...</p>
+                  </div>
+                  <div class="round-indicator mt-6">
+                    Runde <span id="currentRound">1</span>/<span id="totalRounds">1</span>
+                  </div>
+                </section>
+
+                <section id="view-trickster" class="view text-center">
+                  <div class="placeholder-panel">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-3">Trickster Enthüllt</h2>
+                    <p class="text-lg text-gray-700 mb-2">Der Trickster ist:</p>
+                    <p class="text-4xl font-extrabold text-aqua-700 mt-4 mb-3" id="tricksterName">---</p>
+                    <p class="text-gray-600 mt-3">Täusche alle mit deiner Antwort!</p>
+                  </div>
+                  <button id="tricksterContinueBtn" class="bg-aqua-700 hover:bg-aqua-600 active:bg-aqua-700 text-white rounded-full px-8 py-4 text-lg font-semibold shadow-lg shadow-aqua-900/20 transition hover:translate-y-[-2px] hover:shadow-xl active:scale-[0.98] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-aqua-300/60 mt-6">
+                    Weiter
+                  </button>
+                </section>
+
+                <section id="view-question" class="view text-left">
+                  <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 mb-6">
+                    <div class="timer-chip" id="answerTimer">--</div>
+                    <div class="round-indicator">
+                      Runde <span id="roundLabel">1</span>/<span id="roundTotalLabel">1</span>
+                    </div>
+                  </div>
+                  <h2 id="questionTitle" class="text-xl font-bold text-gray-900 mb-3">Frage</h2>
+                  <p id="questionPrompt" class="text-lg font-semibold text-gray-900 mb-4"></p>
+                  <div class="rounded-xl bg-aqua-50 border border-aqua-100 px-4 py-3 mb-6 inline-block" id="questionInstruction">
+                    <span class="text-sm text-gray-700">Beantworte die Frage im Stile von <span id="instructionTrickster" class="font-bold text-aqua-700">---</span>.</span>
+                  </div>
+                  <textarea
+                    id="answerInput"
+                    class="w-full bg-white text-gray-900 placeholder:text-gray-400 rounded-xxl px-6 py-4 shadow-md border border-aqua-200 focus:outline-none focus:border-aqua-500 focus:ring-4 focus:ring-aqua-300/40 transition resize-none"
+                    rows="4"
+                    placeholder="Schreibe deine Antwort hier..."
+                  ></textarea>
+                  <div class="flex flex-col gap-4 mt-6">
+                    <button id="submitAnswerBtn" class="bg-aqua-700 hover:bg-aqua-600 active:bg-aqua-700 text-white rounded-full px-8 py-4 text-lg font-semibold shadow-lg shadow-aqua-900/20 transition hover:translate-y-[-2px] hover:shadow-xl active:scale-[0.98] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-aqua-300/60">
+                      Antwort absenden
+                    </button>
+                    <button id="questionWaitingBtn" class="bg-white/60 text-gray-700 rounded-full px-8 py-4 text-lg font-semibold shadow-md cursor-not-allowed hidden" disabled>
+                      Warte auf andere Spieler...
+                    </button>
+                  </div>
+                </section>
+
+                <section id="view-voting" class="view">
+                  <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 mb-6">
+                    <div class="timer-chip" id="voteTimer">--</div>
+                    <div class="round-indicator">
+                      Runde <span id="voteRoundLabel">1</span>/<span id="voteRoundTotal">1</span>
+                    </div>
+                  </div>
+                  <h2 class="text-2xl font-bold text-gray-900 text-center mb-4">Wer ist der Trickster?</h2>
+                  <p class="text-center text-gray-600 mb-6">
+                    Tippe auf die Antwort, die du für die des Tricksters hältst.
+                  </p>
+                  <div id="voteOptions" class="space-y-4"></div>
+                  <div class="text-center text-gray-600 text-sm mt-4 font-medium" id="voteStatus"></div>
+                </section>
+
+                <section id="view-reveal" class="view">
+                  <h2 class="text-2xl font-bold text-gray-900 text-center mb-4">Auflösung</h2>
+                  <p class="text-center text-gray-600 mb-6">
+                    Antworten und Stimmen werden angezeigt.
+                  </p>
+                  <div id="revealList" class="space-y-4"></div>
+                  <div class="text-center text-gray-600 text-sm mt-6">
+                    Nächste Phase startet automatisch.
+                  </div>
+                </section>
+
+                <section id="view-leaderboard" class="view">
+                  <div class="leaderboard-card">
+                    <div class="leaderboard-header">
+                      <h2>Ranking</h2>
+                      <p id="leaderboardRound">Runde 1</p>
+                    </div>
+                    <div id="leaderboard" class="leaderboard-list"></div>
+                    <div id="leaderboardFooter" class="leaderboard-footer">
+                      Nächster Trickster wird vorbereitet...
+                    </div>
+                  </div>
+                </section>
+
+                <section id="view-gameover" class="view text-center">
+                  <div class="podium-card">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-3">Siegerpodest</h2>
+                    <div class="podium">
+                      <div class="podium-column silver" id="podium-second">
+                        <div class="podium-name">---</div>
+                        <div class="podium-score">0</div>
+                        <div class="podium-block">2</div>
+                      </div>
+                      <div class="podium-column gold" id="podium-first">
+                        <div class="podium-crown">👑</div>
+                        <div class="podium-name">---</div>
+                        <div class="podium-score">0</div>
+                        <div class="podium-block">1</div>
+                      </div>
+                      <div class="podium-column bronze" id="podium-third">
+                        <div class="podium-name">---</div>
+                        <div class="podium-score">0</div>
+                        <div class="podium-block">3</div>
+                      </div>
+                    </div>
+                    <div class="podium-rest" id="podium-rest"></div>
+                  </div>
+                  <div class="flex flex-col gap-4 mt-6">
+                    <button id="backToHomeBtn" class="bg-white/80 hover:bg-white text-aqua-700 border-2 border-aqua-600/30 hover:border-aqua-600 rounded-full px-8 py-4 text-lg font-semibold shadow-md transition hover:shadow-lg active:scale-[0.98] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-aqua-300/60">
+                      Zurück zum Start
+                    </button>
+                  </div>
+                </section>
+        </main>
+      </div>
+    </div>
+
+    <!-- Toast Container für dynamische Notifications -->
+    <div class="fixed top-4 right-4 z-50 space-y-3" id="toastContainer"></div>
+
+    <script src="./app.js" type="module"></script>
+  </body>
+</html>
+

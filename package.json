@@ -1,0 +1,24 @@
+{
+  "name": "trickster",
+  "version": "1.0.0",
+  "description": "Websocket basiertes Trickster Multiplayer Spiel",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "build:css": "tailwindcss -i ./public/styles.css -o ./public/dist/styles.css --minify",
+    "watch:css": "tailwindcss -i ./public/styles.css -o ./public/dist/styles.css --watch",
+    "dev": "npm run watch:css & npm start"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2",
+    "railway": "^2.0.17",
+    "ws": "^8.17.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.4.0"
+  }
+}

@@ -1,0 +1,285 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== Custom Base Styles ===== */
+@layer base {
+  body {
+    @apply font-sans antialiased;
+  }
+}
+
+/* ===== Custom Component Styles ===== */
+@layer components {
+  /* View System - Keine Änderung der Logik, nur Styling */
+  .view {
+    @apply hidden;
+  }
+
+  .view.active {
+    @apply block animate-fade-in;
+  }
+
+  /* Pill Badge für Spielerliste */
+  .pill-badge {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded-full
+           bg-aqua-700 text-white shadow-md
+           hover:bg-aqua-600 active:scale-[0.98] transition-all duration-200;
+  }
+
+  /* Timer Chip */
+  .timer-chip {
+    @apply px-6 py-3 rounded-full bg-aqua-700 text-white font-bold
+           tracking-wide shadow-lg shadow-aqua-900/20;
+  }
+
+  /* Round Indicator */
+  .round-indicator {
+    @apply text-sm font-semibold tracking-wider uppercase text-white/90;
+  }
+
+  /* Answer/Vote Option Button */
+  .answer-btn {
+    @apply w-full rounded-xxl px-5 py-4 text-left font-semibold
+           bg-white text-gray-900 border border-aqua-200
+           shadow-lg shadow-sky-900/10
+           hover:translate-y-[-2px] hover:shadow-xl hover:shadow-aqua-500/20
+           active:scale-[0.98]
+           transition-all duration-200
+           focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-aqua-300/60;
+  }
+
+  /* Vote Option Wrapper */
+  .vote-option {
+    @apply rounded-xxl;
+  }
+
+  .vote-option button {
+    @apply answer-btn;
+  }
+
+  .vote-option.disabled button,
+  .vote-option.spectator-view button {
+    @apply opacity-60 cursor-not-allowed hover:translate-y-0 hover:shadow-lg;
+  }
+
+  /* Reveal Card */
+  .reveal-card {
+    @apply bg-white text-gray-900 rounded-xxl p-6
+           shadow-xl shadow-sky-900/10 border border-aqua-100
+           animate-fade-in;
+  }
+
+  .reveal-card.trickster-highlight {
+    @apply bg-gradient-to-br from-yellow-50 to-orange-50
+           border-yellow-300 shadow-xl shadow-yellow-500/20;
+  }
+
+  .reveal-card .reveal-meta {
+    @apply text-xs font-semibold tracking-wider uppercase text-gray-600;
+  }
+
+  .reveal-card .reveal-bubble {
+    @apply w-full rounded-xl bg-aqua-50 p-4 border border-aqua-100;
+  }
+
+  .reveal-card .reveal-content {
+    @apply text-base text-gray-900 leading-relaxed;
+  }
+
+  .reveal-card .votes {
+    @apply flex flex-wrap gap-2 mt-3;
+  }
+
+  /* Vote Chips */
+  .vote-chip {
+    @apply px-3 py-1.5 rounded-full bg-aqua-700 text-white text-sm font-semibold
+           shadow-md border-2 border-aqua-600;
+  }
+
+  .vote-chip-self {
+    @apply bg-orange-500 border-orange-400;
+  }
+
+  .vote-chip-empty {
+    @apply bg-transparent border-dashed border-white/40 text-white/70 opacity-70;
+  }
+
+  /* Leaderboard Card */
+  .leaderboard-card {
+    @apply max-w-md mx-auto rounded-[2.5rem] p-8
+           bg-white text-gray-900
+           shadow-2xl shadow-sky-900/10 border border-aqua-200
+           animate-fade-in;
+  }
+
+  .leaderboard-header {
+    @apply text-center mb-6;
+  }
+
+  .leaderboard-header h2 {
+    @apply text-2xl font-bold tracking-wide text-gray-900;
+  }
+
+  .leaderboard-header p {
+    @apply text-sm font-medium text-gray-600 mt-1;
+  }
+
+  .leaderboard-list {
+    @apply space-y-3;
+  }
+
+  .leaderboard-item {
+    @apply flex items-center gap-3 rounded-xl px-4 py-3
+           bg-aqua-50 border border-aqua-100
+           relative overflow-hidden;
+  }
+
+  .leaderboard-item.self {
+    @apply border-2 border-aqua-600 shadow-lg shadow-aqua-500/20;
+  }
+
+  .leaderboard-position {
+    @apply text-lg font-bold w-10 text-center text-gray-900 relative z-10;
+  }
+
+  .leaderboard-details {
+    @apply flex-1 text-left relative z-10;
+  }
+
+  .leaderboard-name {
+    @apply font-bold text-gray-900;
+  }
+
+  .leaderboard-score {
+    @apply text-lg font-semibold text-gray-900 relative z-10;
+  }
+
+  .leaderboard-bar {
+    @apply absolute inset-0 bg-gradient-to-r from-aqua-200/60 to-aqua-300/40
+           origin-left opacity-100;
+  }
+
+  .leaderboard-footer {
+    @apply text-center text-sm text-gray-600 mt-6 font-medium;
+  }
+
+  /* Podium Card */
+  .podium-card {
+    @apply max-w-lg mx-auto rounded-[2.5rem] p-8
+           bg-white text-gray-900
+           shadow-2xl shadow-sky-900/10 border border-aqua-200
+           animate-fade-in;
+  }
+
+  .podium {
+    @apply flex justify-center items-end gap-4 mt-6;
+  }
+
+  .podium-column {
+    @apply flex flex-col items-center gap-2;
+  }
+
+  .podium-name {
+    @apply font-bold tracking-wide uppercase text-gray-900 text-sm;
+  }
+
+  .podium-score {
+    @apply text-lg font-semibold text-gray-900;
+  }
+
+  .podium-block {
+    @apply w-24 rounded-t-2xl rounded-b-lg pt-3 pb-4 text-2xl font-extrabold tracking-wider;
+  }
+
+  .podium-column.gold {
+    @apply translate-y-[-1rem];
+  }
+
+  .podium-column.gold .podium-block {
+    @apply bg-gradient-to-b from-yellow-300 to-yellow-400 text-yellow-900;
+  }
+
+  .podium-column.silver .podium-block {
+    @apply bg-gradient-to-b from-gray-300 to-gray-400 text-gray-700;
+  }
+
+  .podium-column.bronze .podium-block {
+    @apply bg-gradient-to-b from-orange-300 to-orange-400 text-orange-900;
+  }
+
+  .podium-crown {
+    @apply text-4xl;
+  }
+
+  .podium-rest {
+    @apply flex flex-wrap justify-center gap-3 mt-6;
+  }
+
+  .podium-chip {
+    @apply px-4 py-2 rounded-full bg-aqua-100 text-gray-900 font-semibold text-sm;
+  }
+
+  /* Mode Toggle */
+  .mode-toggle .btn-mode {
+    @apply flex flex-col items-start gap-1 px-5 py-3 rounded-xl
+           bg-white text-gray-900 border border-aqua-200
+           shadow-md hover:shadow-lg
+           transition-all duration-200 cursor-pointer
+           focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-aqua-300/60;
+  }
+
+  .btn-check:checked + .btn-mode {
+    @apply bg-aqua-700 text-white border-aqua-700 shadow-lg shadow-aqua-500/30;
+  }
+
+  .mode-title {
+    @apply font-semibold tracking-wide;
+  }
+
+  .mode-subtitle {
+    @apply text-sm opacity-70;
+  }
+
+  /* Lobby Mode Tag */
+  .lobby-mode-tag {
+    @apply inline-block px-4 py-2 rounded-full
+           bg-aqua-100 text-gray-900 text-sm font-semibold tracking-wide
+           border border-aqua-200;
+  }
+
+  /* Placeholder Panel */
+  .placeholder-panel {
+    @apply rounded-xxl p-8 text-center
+           bg-white/90 text-gray-900
+           border-2 border-dashed border-aqua-300
+           shadow-lg animate-fade-in;
+  }
+
+  /* Logo Emoji */
+  .logo-emoji {
+    @apply text-5xl md:text-6xl drop-shadow-sm;
+  }
+}
+
+/* ===== Reduced Motion Support ===== */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in,
+  .animate-fade-out,
+  .animate-pulse-soft {
+    animation: none !important;
+  }
+
+  .transition,
+  .transition-all,
+  .transition-transform,
+  .transition-colors {
+    transition: none !important;
+  }
+
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
