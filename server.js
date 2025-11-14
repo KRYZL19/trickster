@@ -37,6 +37,18 @@ const QUESTION_CATEGORY_CONFIG = [
     description: "Persönliche Fragen für echte Gespräche.",
     file: path.join(__dirname, "data", "questions_what_about_you.json"),
   },
+  {
+    id: "school",
+    label: "Schulzeit",
+    description: "Nostalgie pur – Erinnerungen an Klassenzimmer & Pausenhof.",
+    file: path.join(__dirname, "data", "question_school.json"),
+  },
+  {
+    id: "apocalypse",
+    label: "Apokalypse",
+    description: "Überlebens-Strategien für den Weltuntergang.",
+    file: path.join(__dirname, "data", "questions_apocalypse.json"),
+  },
 ];
 
 function loadQuestionsFromFile(filePath) {
